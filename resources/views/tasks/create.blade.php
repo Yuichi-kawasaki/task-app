@@ -2,6 +2,12 @@
 
 @section('content')
     <div class="container">
+        {{-- フラッシュメッセージを表示 --}}
+        @if (session('error'))
+            <div class="alert alert-success" style="color: red;">   
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="card mt-4">

@@ -20,14 +20,20 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
+        $deadline = $request->input('deadline');
+    
+        if (strtotime($deadline) < strtotime('today')) {
+            return redirect()->back()->withInput()->with('error', 'Tasks before yesterday cannot be registered.');
+        }
+    
         $task = new Task([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'status' => $request->input('status'),
-            'deadline' => $request->input('deadline'),
+            'deadline' => $deadline,
         ]);
         $task->save();
-
+    
         return redirect()->route('tasks.show', $task->id)->with('success', 'Task was successfully created.');
     }
 
@@ -43,6 +49,12 @@ class TaskController extends Controller
 
     public function update(Request $request, Task $task)
     {
+        $deadline = $request->input('deadline');
+    
+        if (strtotime($deadline) < strtotime('today')) {
+            return redirect()->back()->withInput()->with('error', 'Tasks before yesterday cannot be registered.');
+        }
+
         $task->update([
             'title' => $request->input('title'),
             'description' => $request->input('description'),

@@ -29,6 +29,7 @@ class Task extends Model
         $rules = [
             'title' => 'required|max:255',
             'status' => 'required',
+            'deadline' => 'required|date|after_or_equal:today',
         ];
     
         return $rules;
@@ -37,12 +38,7 @@ class Task extends Model
     
     public function save(array $options = [])
     {
-        $validator = Validator::make($this->attributes, $this->getValidationRules());
-
-        if ($validator->fails()) {
-            throw new ValidationException($validator);
-        }
-
+        $this->validate();
         return parent::save($options);
     }
 

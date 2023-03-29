@@ -2,6 +2,12 @@
 
 @section('content')
     <div class="container">
+        {{-- フラッシュメッセージを表示 --}}
+        @if (session('error'))
+            <div class="alert alert-success" style="color: red;">   
+                {{ session('error') }}
+            </div>
+        @endif
         <h2 class="text-center mb-5">タスクを編集</h2>
         <div class="row justify-content-center">
             <div class="col-md-8">
